@@ -2,26 +2,27 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
 
 function App() {
   return (
-    <body class="page">
-      <div class="page__container">
+    <body className="page">
+      <div className="page__container">
         <Header />
         <Main />
         <Footer />
       </div>
 
-      <div class="popup popup_type_edit-profile">
-        <div class="popup__content">
+      <div className="popup popup_type_profile">
+        <div className="popup__content">
           <button
-            class="popup__close-button"
+            className="popup__close-button"
             type="button"
             aria-label="закрыть"></button>
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="popup__form" name="profile-form" novalidate>
+          <h2 className="popup__title">Редактировать профиль</h2>
+          <form className="popup__form" name="profile-form" novalidate>
             <input
-              class="popup__input popup__input_type_name"
+              className="popup__input popup__input_type_name"
               type="text"
               name="name"
               id="name-input"
@@ -30,9 +31,9 @@ function App() {
               maxlength="40"
               required
             />
-            <span class="popup__input-error name-input-error"></span>
+            <span className="popup__input-error name-input-error"></span>
             <input
-              class="popup__input popup__input_type_about"
+              className="popup__input popup__input_type_about"
               type="text"
               name="about"
               id="about-input"
@@ -41,9 +42,9 @@ function App() {
               maxlength="200"
               required
             />
-            <span class="popup__input-error about-input-error"></span>
+            <span className="popup__input-error about-input-error"></span>
             <button
-              class="popup__submit-button"
+              className="popup__submit-button"
               type="submit"
               aria-label="сохранить">
               Сохранить
@@ -52,16 +53,16 @@ function App() {
         </div>
       </div>
 
-      <div class="popup popup_type_add-element">
-        <div class="popup__content">
+      <div className="popup popup_type_add-element">
+        <div className="popup__content">
           <button
-            class="popup__close-button"
+            className="popup__close-button"
             type="button"
             aria-label="закрыть"></button>
-          <h2 class="popup__title">Новое место</h2>
-          <form class="popup__form" name="add-form" novalidate>
+          <h2 className="popup__title">Новое место</h2>
+          <form className="popup__form" name="add-element-form" novalidate>
             <input
-              class="popup__input popup__input_type_card-title"
+              className="popup__input popup__input_type_card-title"
               type="text"
               name="title"
               placeholder="Название"
@@ -70,18 +71,18 @@ function App() {
               maxlength="30"
               required
             />
-            <span class="popup__input-error title-input-error"></span>
+            <span className="popup__input-error title-input-error"></span>
             <input
-              class="popup__input popup__input_type_image-link"
+              className="popup__input popup__input_type_image-link"
               type="url"
               name="link"
               placeholder="Ссылка на картинку"
               id="link-input"
               required
             />
-            <span class="popup__input-error link-input-error"></span>
+            <span className="popup__input-error link-input-error"></span>
             <button
-              class="popup__submit-button"
+              className="popup__submit-button"
               type="submit"
               aria-label="создать">
               Создать
@@ -90,25 +91,25 @@ function App() {
         </div>
       </div>
 
-      <div class="popup popup_type_update-avatar">
-        <div class="popup__content">
+      <div className="popup popup_type_avatar">
+        <div className="popup__content">
           <button
-            class="popup__close-button"
+            className="popup__close-button"
             type="button"
             aria-label="закрыть"></button>
-          <h2 class="popup__title">Обновить аватар</h2>
-          <form class="popup__form" name="avatar-form" novalidate>
+          <h2 className="popup__title">Обновить аватар</h2>
+          <form className="popup__form" name="avatar-form" novalidate>
             <input
-              class="popup__input popup__input_type_avatar-link"
+              className="popup__input popup__input_type_avatar-link"
               type="url"
               name="avatar"
               placeholder="Ссылка на картинку"
               id="avatar-input"
               required
             />
-            <span class="popup__input-error avatar-input-error"></span>
+            <span className="popup__input-error avatar-input-error"></span>
             <button
-              class="popup__submit-button"
+              className="popup__submit-button"
               type="submit"
               aria-label="сохранить">
               Сохранить
@@ -117,47 +118,54 @@ function App() {
         </div>
       </div>
 
-      <div class="popup popup_type_confirm">
-        <div class="popup__content">
+      <div className="popup popup_type_confirm">
+        <div className="popup__content">
           <button
-            class="popup__close-button"
+            className="popup__close-button"
             type="button"
             aria-label="закрыть"></button>
-          <h2 class="popup__title popup__title_place_confirm">Вы уверены?</h2>
-          <button class="popup__submit-button" type="button" aria-label="да">
-            Да
-          </button>
+          <h2 className="popup__title popup__title_place_confirm">
+            Вы уверены?
+          </h2>
+          <form className="popup__form" name="confirm" novalidate>
+            <button
+              className="popup__submit-button"
+              type="button"
+              aria-label="да">
+              Да
+            </button>
+          </form>
         </div>
       </div>
 
-      <div class="popup popup_type_image">
-        <div class="popup__content popup__content_image">
+      <div className="popup popup_type_image">
+        <div className="popup__content popup__content_image">
           <button
-            class="popup__close-button"
+            className="popup__close-button"
             type="button"
             aria-label="закрыть"></button>
-          <figure class="popup__figure">
-            <img src="/" alt=" " class="popup__image" />
-            <figcaption class="popup__caption"></figcaption>
+          <figure className="popup__figure">
+            <img src="/" alt=" " className="popup__image" />
+            <figcaption className="popup__caption"></figcaption>
           </figure>
         </div>
       </div>
 
-      <template class="elements__template">
-        <li class="elements__item">
-          <img src="/" alt=" " class="elements__photo" />
+      <template className="elements__template">
+        <li className="elements__item">
+          <img src="/" alt=" " className="elements__photo" />
           <button
-            class="elements__delete"
+            className="elements__delete"
             type="button"
             aria-label="удалить"></button>
-          <div class="elements__caption">
-            <h2 class="elements__title"></h2>
-            <div class="elements__like-group">
+          <div className="elements__caption">
+            <h2 className="elements__title"></h2>
+            <div className="elements__like-group">
               <button
-                class="elements__like-button"
+                className="elements__like-button"
                 type="button"
                 aria-label="нравится"></button>
-              <span class="elements__like-count"></span>
+              <span className="elements__like-count"></span>
             </div>
           </div>
         </li>
