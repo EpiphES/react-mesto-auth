@@ -3,6 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   return (
@@ -115,39 +116,6 @@ function App() {
               Сохранить
             </button>
           </form>
-        </div>
-      </div>
-
-      <div className="popup popup_type_confirm">
-        <div className="popup__content">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="закрыть"></button>
-          <h2 className="popup__title popup__title_place_confirm">
-            Вы уверены?
-          </h2>
-          <form className="popup__form" name="confirm" novalidate>
-            <button
-              className="popup__submit-button"
-              type="button"
-              aria-label="да">
-              Да
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <div className="popup popup_type_image">
-        <div className="popup__content popup__content_image">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="закрыть"></button>
-          <figure className="popup__figure">
-            <img src="/" alt=" " className="popup__image" />
-            <figcaption className="popup__caption"></figcaption>
-          </figure>
         </div>
       </div>
 
