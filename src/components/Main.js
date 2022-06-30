@@ -1,26 +1,13 @@
 import React from "react";
 
-function Main() {
-  function handleEditAvatarClick() {
-    document.querySelector(".popup_type_avatar").classList.add("popup_opened");
-  }
-
-  function handleEditProfileClick() {
-    document.querySelector(".popup_type_profile").classList.add("popup_opened");
-  }
-  function handleAddPlaceClick() {
-    document
-      .querySelector(".popup_type_add-element")
-      .classList.add("popup_opened");
-  }
-
+function Main(props) {
   return (
     <main className="content">
       <section className="profile">
         <a
           href="#"
           className="profile__avatar"
-          onClick={handleEditAvatarClick}></a>
+          onClick={props.onEditAvatar}></a>
         <div className="profile__info">
           <div className="profile__title">
             <h1 className="profile__name">Жак-Ив Кусто</h1>
@@ -28,7 +15,7 @@ function Main() {
               className="profile__edit-button"
               type="button"
               aria-label="редактировать"
-              onClick={handleEditProfileClick}></button>
+              onClick={props.onEditProfile}></button>
           </div>
           <p className="profile__about">исследователь</p>
         </div>
@@ -36,7 +23,7 @@ function Main() {
           className="profile__add-button"
           type="button"
           aria-label="добавить"
-          onClick={handleAddPlaceClick}></button>
+          onClick={props.onAddPlace}></button>
       </section>
 
       <ul className="elements"></ul>
