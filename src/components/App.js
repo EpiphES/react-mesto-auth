@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -8,10 +9,7 @@ function App() {
       <div class="page__container">
         <Header />
         <Main />
-
-        <footer class="footer">
-          <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
-        </footer>
+        <Footer />
       </div>
 
       <div class="popup popup_type_edit-profile">
