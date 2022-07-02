@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -33,17 +33,15 @@ function App() {
     setSelectedCard({ isOpened: true, src: src, title: title });
   }
 
-  function closeAllPopups(evt) {
-    if (evt.target === evt.currentTarget) {
-      setEditAvatarPopupState(false);
-      setEditProfilePopupState(false);
-      setAddPlacePopupState(false);
-      setSelectedCard({
-        isOpened: false,
-        src: "/",
-        title: "",
-      });
-    }
+  function closeAllPopups() {
+    setEditAvatarPopupState(false);
+    setEditProfilePopupState(false);
+    setAddPlacePopupState(false);
+    setSelectedCard({
+      isOpened: false,
+      src: "/",
+      title: "",
+    });
   }
 
   return (
