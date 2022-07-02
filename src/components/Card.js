@@ -4,7 +4,7 @@ function Card({ src, title, likes, onCardClick }) {
   }
 
   return (
-    <li className="elements__item">
+    <div className="elements__item">
       <img
         src={src}
         alt={title}
@@ -25,7 +25,7 @@ function Card({ src, title, likes, onCardClick }) {
           <span className="elements__like-count">{likes}</span>
         </div>
       </div>
-    </li>
+    </div>
   );
 }
 

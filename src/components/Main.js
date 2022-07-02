@@ -48,13 +48,14 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       <ul className="elements">
         {cards.map((item) => {
           return (
-            <Card
-              key={item._id}
-              src={item.link}
-              title={item.name}
-              likes={item.likes.length}
-              onCardClick={onCardClick}
-            />
+            <li key={item._id}>
+              <Card
+                src={item.link}
+                title={item.name}
+                likes={item.likes.length}
+                onCardClick={onCardClick}
+              />
+            </li>
           );
         })}
       </ul>
