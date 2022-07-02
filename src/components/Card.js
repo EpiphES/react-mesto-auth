@@ -4,8 +4,13 @@ function Card({ src, title, likes, onCardClick }) {
   }
 
   return (
-    <li className="elements__item" onClick={handleClick}>
-      <img src={src} alt={title} className="elements__photo" />
+    <li className="elements__item">
+      <img
+        src={src}
+        alt={title}
+        className="elements__photo"
+        onClick={handleClick}
+      />
       <button
         className="elements__delete"
         type="button"
