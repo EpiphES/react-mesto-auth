@@ -12,6 +12,12 @@ function App() {
 
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = useState(false);
 
+  const [selectedCard, setSelectedCard] = useState({
+    isOpened: false,
+    src: "/",
+    title: "",
+  });
+
   function handleEditAvatarClick() {
     setEditAvatarPopupState(true);
   }
@@ -23,11 +29,20 @@ function App() {
     setAddPlacePopupState(true);
   }
 
+  function handleCardClick({ src, title }) {
+    setSelectedCard({ isOpened: true, src: src, title: title });
+  }
+
   function closeAllPopups(evt) {
     if (evt.target === evt.currentTarget) {
       setEditAvatarPopupState(false);
       setEditProfilePopupState(false);
       setAddPlacePopupState(false);
+      setSelectedCard({
+        isOpened: false,
+        src: "/",
+        title: "",
+      });
     }
   }
 
@@ -38,6 +53,7 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm
@@ -115,17 +131,7 @@ function App() {
         <span className="popup__input-error avatar-input-error"></span>
       </PopupWithForm>
 
-      <PopupWithForm
-        name="confirm"
-        title="Вы уверены?"
-        acceptMessage="Да"
-        onClose={closeAllPopups}
-        // isOpened={isConfirmPopupOpen}
-      />
-
-      <ImagePopup />
-
-      <template className="elements__template"></template>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }

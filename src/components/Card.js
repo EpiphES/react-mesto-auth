@@ -1,6 +1,10 @@
-function Card({ key, src, title, likes }) {
+function Card({ src, title, likes, onCardClick }) {
+  function handleClick() {
+    onCardClick({ src, title });
+  }
+
   return (
-    <li className="elements__item" key={key}>
+    <li className="elements__item" onClick={handleClick}>
       <img src={src} alt={title} className="elements__photo" />
       <button
         className="elements__delete"

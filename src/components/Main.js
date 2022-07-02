@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../utils/api";
 import Card from "./Card";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
   const [userAvatar, setUserAvatar] = useState("/");
@@ -53,6 +53,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
               src={item.link}
               title={item.name}
               likes={item.likes.length}
+              onCardClick={onCardClick}
             />
           );
         })}
