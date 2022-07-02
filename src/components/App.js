@@ -6,11 +6,11 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setEditProfilePopupState] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
 
-  const [isAddPlacePopupOpen, setAddPlacePopupState] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
 
-  const [isEditAvatarPopupOpen, setEditAvatarPopupState] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({
     isOpened: false,
@@ -19,14 +19,14 @@ function App() {
   });
 
   function handleEditAvatarClick() {
-    setEditAvatarPopupState(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setEditProfilePopupState(true);
+    setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick() {
-    setAddPlacePopupState(true);
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleCardClick({ src, title }) {
@@ -34,9 +34,9 @@ function App() {
   }
 
   function closeAllPopups() {
-    setEditAvatarPopupState(false);
-    setEditProfilePopupState(false);
-    setAddPlacePopupState(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
     setSelectedCard({
       isOpened: false,
       src: "/",
