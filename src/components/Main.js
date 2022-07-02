@@ -8,6 +8,19 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userAvatar, setUserAvatar] = useState("/");
   const [cards, setCards] = useState([]);
 
+  const cardsElements = cards.map((item) => {
+    return (
+      <li key={item._id}>
+        <Card
+          src={item.link}
+          title={item.name}
+          likes={item.likes.length}
+          onCardClick={onCardClick}
+        />
+      </li>
+    );
+  });
+
   useEffect(() => {
     Promise.all([api.getProfileInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
@@ -45,20 +58,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
           onClick={onAddPlace}></button>
       </section>
 
-      <ul className="elements">
-        {cards.map((item) => {
-          return (
-            <li key={item._id}>
-              <Card
-                src={item.link}
-                title={item.name}
-                likes={item.likes.length}
-                onCardClick={onCardClick}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <ul className="elements">{cardsElements}</ul>
     </main>
   );
 }
