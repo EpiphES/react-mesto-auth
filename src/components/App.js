@@ -12,10 +12,7 @@ function App() {
 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = useState({
-    src: "",
-    title: "",
-  });
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -36,10 +33,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard({
-      src: "",
-      title: "",
-    });
+    setSelectedCard(null);
   }
 
   return (
