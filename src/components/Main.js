@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
+import Card from "./Card";
 
-function Main(props) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
   const [userAvatar, setUserAvatar] = useState("/");
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api
-      .getProfileInfo()
-      .then((data) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
+    Promise.all([api.getProfileInfo(), api.getInitialCards()])
+      .then(([userData, cards]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setCards(cards);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -23,7 +25,7 @@ function Main(props) {
         <a
           href="#"
           className="profile__avatar"
-          onClick={props.onEditAvatar}
+          onClick={onEditAvatar}
           style={{ backgroundImage: `url(${userAvatar})` }}></a>
         <div className="profile__info">
           <div className="profile__title">
@@ -32,7 +34,7 @@ function Main(props) {
               className="profile__edit-button"
               type="button"
               aria-label="редактировать"
-              onClick={props.onEditProfile}></button>
+              onClick={onEditProfile}></button>
           </div>
           <p className="profile__about">{userDescription}</p>
         </div>
@@ -40,10 +42,21 @@ function Main(props) {
           className="profile__add-button"
           type="button"
           aria-label="добавить"
-          onClick={props.onAddPlace}></button>
+          onClick={onAddPlace}></button>
       </section>
 
-      <ul className="elements"></ul>
+      <ul className="elements">
+        {cards.map((item) => {
+          return (
+            <Card
+              key={item._id}
+              src={item.link}
+              title={item.name}
+              likes={item.likes.length}
+            />
+          );
+        })}
+      </ul>
     </main>
   );
 }
