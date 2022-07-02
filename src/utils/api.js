@@ -1,3 +1,5 @@
+import { credentials } from "./utils";
+
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -69,9 +71,9 @@ class Api {
   }
 }
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-43",
+  baseUrl: credentials.url,
   headers: {
-    authorization: "1bffef03-9768-4f1e-8e85-138575e6daba",
+    authorization: credentials.apiKey,
     "Content-Type": "application/json",
   },
 });
