@@ -9,14 +9,10 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [cards, setCards] = useState([]);
 
   const cardsElements = cards.map((item) => {
+    console.log(item);
     return (
       <li key={item._id}>
-        <Card
-          src={item.link}
-          title={item.name}
-          likes={item.likes.length}
-          onCardClick={onCardClick}
-        />
+        <Card card={item} onCardClick={onCardClick} />
       </li>
     );
   });
