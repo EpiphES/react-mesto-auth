@@ -37,15 +37,17 @@ function App() {
   }
 
   return (
-    <div className="page__container">
-      <Header />
-      <Main
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onEditProfile={handleEditProfileClick}
-        onCardClick={handleCardClick}
-      />
-      <Footer />
+    <div className="page">
+      <div className="page__container">
+        <Header />
+        <Main
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onCardClick={handleCardClick}
+        />
+        <Footer />
+      </div>
       <PopupWithForm
         name="profile"
         title="Редактировать профиль"
