@@ -22,7 +22,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   });
 
   useEffect(() => {
-    Promise.all([api.getProfileInfo(), api.getInitialCards()])
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setUserName(userData.name);
         setUserDescription(userData.about);

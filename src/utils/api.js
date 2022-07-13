@@ -12,7 +12,7 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  getProfileInfo() {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
     }).then(this._checkResponse);
