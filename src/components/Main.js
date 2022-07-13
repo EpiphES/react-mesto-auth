@@ -15,6 +15,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
           card={item}
           onCardClick={onCardClick}
           onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
       </li>
     );
@@ -26,6 +27,12 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
+  }
+
+  function handleCardDelete(cardId) {
+    api
+      .deleteCard(cardId)
+      .then(() => setCards((state) => state.filter((c) => c._id !== cardId)));
   }
 
   useEffect(() => {
