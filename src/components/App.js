@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import api from "../utils/api";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
-import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ImagePopup from "./ImagePopup";
+import ConfirmationPopup from "./ConfirmationPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
+  const [cardToDelete, setCardToDelete] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [currentUser, setCurrentUser] = useState({
@@ -29,6 +29,8 @@ function App() {
   const [isProfileFormLoading, setIsProfileLoading] = useState(false);
   const [isAvatarFormLoading, setIsAvatarFormLoading] = useState(false);
   const [isAddPlaceFormLoading, setIsAddPlaceFormLoading] = useState(false);
+  const [isConfirmationFormLoading, setConfirmationFormLoading] =
+    useState(false);
 
   function handleCardClick({ src, title }) {
     setSelectedCard({ src, title });
@@ -41,9 +43,7 @@ function App() {
     });
   }
   function handleCardDelete(cardId) {
-    api
-      .deleteCard(cardId)
-      .then(() => setCards((state) => state.filter((c) => c._id !== cardId)));
+    setCardToDelete(cardId);
   }
 
   useEffect(() => {
@@ -69,6 +69,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setCardToDelete(null);
   }
 
   function handleUpdateUser({ name, about }) {
@@ -77,10 +78,12 @@ function App() {
       .submitProfileInfo({ name, about })
       .then((userData) => {
         setCurrentUser(userData);
-        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsProfileLoading(false));
+      .finally(() => {
+        setIsProfileLoading(false);
+        closeAllPopups();
+      });
   }
 
   function handleUpdateAvatar({ avatar }) {
@@ -89,10 +92,12 @@ function App() {
       .submitAvatar({ avatar })
       .then((userData) => {
         setCurrentUser(userData);
-        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsAvatarFormLoading(false));
+      .finally(() => {
+        setIsAvatarFormLoading(false);
+        closeAllPopups();
+      });
   }
 
   function handleAddPlaceSubmit({ title, link }) {
@@ -101,10 +106,23 @@ function App() {
       .submitCard({ title, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsAddPlaceFormLoading(false));
+      .finally(() => {
+        setIsAddPlaceFormLoading(false);
+        closeAllPopups();
+      });
+  }
+
+  function handleConfirmDeletion(cardId) {
+    setConfirmationFormLoading(true);
+    api
+      .deleteCard(cardId)
+      .then(() => setCards((state) => state.filter((c) => c._id !== cardId)))
+      .finally(() => {
+        setConfirmationFormLoading(false);
+        closeAllPopups();
+      });
   }
 
   return (
@@ -141,7 +159,12 @@ function App() {
           onAddPlace={handleAddPlaceSubmit}
           isLoading={isAddPlaceFormLoading}
         />
-
+        <ConfirmationPopup
+          card={cardToDelete}
+          onClose={closeAllPopups}
+          onConfirmDeletion={handleConfirmDeletion}
+          isLoading={isConfirmationFormLoading}
+        />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
