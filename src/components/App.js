@@ -24,6 +24,31 @@ function App() {
     avatar: "/",
   });
 
+  const [cards, setCards] = useState([]);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
+
+  function handleCardDelete(cardId) {
+    api
+      .deleteCard(cardId)
+      .then(() => setCards((state) => state.filter((c) => c._id !== cardId)));
+  }
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   useEffect(() => {
     api
       .getUserInfo()
@@ -83,6 +108,9 @@ function App() {
             onEditAvatar={handleEditAvatarClick}
             onEditProfile={handleEditProfileClick}
             onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
         </div>
