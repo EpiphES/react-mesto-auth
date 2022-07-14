@@ -5,6 +5,7 @@ function PopupWithForm({
   children,
   isOpened,
   onClose,
+  onSubmit,
 }) {
   return (
     <div
@@ -16,7 +17,11 @@ function PopupWithForm({
           aria-label="закрыть"
           onClick={onClose}></button>
         <h2 className="popup__title">{title}</h2>
-        <form className="popup__form" name={`${name}-form`} noValidate>
+        <form
+          className="popup__form"
+          name={`${name}-form`}
+          noValidate
+          onSubmit={onSubmit}>
           {children}
           <button
             className="popup__submit-button"

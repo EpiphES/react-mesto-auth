@@ -17,7 +17,11 @@ function App() {
 
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    about: "",
+    avatar: "/",
+  });
 
   useEffect(() => {
     api
@@ -48,6 +52,16 @@ function App() {
     setSelectedCard(null);
   }
 
+  function handleUpdateUser({ name, about }) {
+    api
+      .submitProfileInfo({ name, about })
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -64,6 +78,7 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <PopupWithForm
           name="add-element"
