@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
@@ -27,6 +26,13 @@ function App() {
 
   const [cards, setCards] = useState([]);
 
+  const [isProfileFormLoading, setIsProfileLoading] = useState(false);
+  const [isAvatarFormLoading, setIsAvatarFormLoading] = useState(false);
+  const [isAddPlaceFormLoading, setIsAddPlaceFormLoading] = useState(false);
+
+  function handleCardClick({ src, title }) {
+    setSelectedCard({ src, title });
+  }
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
@@ -34,7 +40,6 @@ function App() {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
-
   function handleCardDelete(cardId) {
     api
       .deleteCard(cardId)
@@ -53,18 +58,12 @@ function App() {
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
-
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
-
-  function handleCardClick({ src, title }) {
-    setSelectedCard({ src, title });
-  }
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -73,33 +72,39 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
+    setIsProfileLoading(true);
     api
       .submitProfileInfo({ name, about })
       .then((userData) => {
         setCurrentUser(userData);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsProfileLoading(false));
   }
 
   function handleUpdateAvatar({ avatar }) {
+    setIsAvatarFormLoading(true);
     api
       .submitAvatar({ avatar })
       .then((userData) => {
         setCurrentUser(userData);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsAvatarFormLoading(false));
   }
 
   function handleAddPlaceSubmit({ title, link }) {
+    setIsAddPlaceFormLoading(true);
     api
       .submitCard({ title, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsAddPlaceFormLoading(false));
   }
 
   return (
@@ -122,16 +127,19 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isProfileFormLoading}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isAvatarFormLoading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          isLoading={isAddPlaceFormLoading}
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />

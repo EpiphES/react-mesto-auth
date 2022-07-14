@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function PopupWithForm({
   name,
   title,
@@ -6,6 +8,7 @@ function PopupWithForm({
   isOpened,
   onClose,
   onSubmit,
+  isLoading,
 }) {
   return (
     <div
@@ -27,7 +30,7 @@ function PopupWithForm({
             className="popup__submit-button"
             type="submit"
             aria-label={acceptMessage}>
-            {acceptMessage}
+            {isLoading ? "Сохранение.." : acceptMessage}
           </button>
         </form>
       </div>
