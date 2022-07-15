@@ -29,6 +29,7 @@ function PopupWithForm({
               !isValid && "popup__submit-button_disabled"
             }`}
             type="submit"
+            disabled={!isValid}
             aria-label={acceptMessage}>
             {isLoading ? "Сохранение.." : acceptMessage}
           </button>

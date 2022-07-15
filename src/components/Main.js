@@ -29,13 +29,12 @@ function Main({
   return (
     <main className="content">
       <section className="profile">
-        <a
-          href="#"
+        <button
           className="profile__avatar"
           onClick={onEditAvatar}
           style={{
             backgroundImage: `url(${currentUser?.avatar})`,
-          }}></a>
+          }}></button>
         <div className="profile__info">
           <div className="profile__title">
             <h1 className="profile__name">{currentUser?.name}</h1>

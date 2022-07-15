@@ -14,6 +14,7 @@ function ConfirmationPopup({ card, onClose, onConfirmDeletion, isLoading }) {
       isOpened={card}
       onSubmit={handleSubmit}
       isLoading={isLoading}
+      isValid={true}
     />
   );
 }

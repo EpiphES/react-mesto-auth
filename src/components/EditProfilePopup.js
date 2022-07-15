@@ -4,44 +4,55 @@ import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
-  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState("");
-  const [nameErrorMessage, setNameErrorMessage] = useState("");
+
+  const [formValues, setFormValues] = useState({
+    name: {
+      value: "",
+      error: "",
+      isValid: true,
+    },
+    about: {
+      value: "",
+      error: "",
+      isValid: true,
+    },
+  });
 
   useEffect(() => {
-    setName(currentUser && currentUser.name);
-    setDescription(currentUser && currentUser.about);
-  }, [currentUser]);
+    setFormValues({
+      name: {
+        value: currentUser?.name,
+        error: "",
+        isValid: true,
+      },
+      about: {
+        value: currentUser?.about,
+        error: "",
+        isValid: true,
+      },
+    });
+  }, [currentUser, isOpen]);
 
-  function handleNameChange(evt) {
-    setName(evt.target.value);
-    if (evt.target.validity.valid) {
-      setIsNameValid(true);
-    } else {
-      setIsNameValid(false);
-      setNameErrorMessage(evt.target.validationMessage);
-    }
-  }
+  function handleChange(evt) {
+    const {
+      name,
+      value,
+      validity: { valid },
+      validationMessage,
+    } = evt.target;
 
-  function handleDescriptionChange(evt) {
-    setDescription(evt.target.value);
-    if (evt.target.validity.valid) {
-      setIsDescriptionValid(true);
-    } else {
-      setIsDescriptionValid(false);
-      setDescriptionErrorMessage(evt.target.validationMessage);
-    }
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: { value, isValid: valid, error: validationMessage },
+    }));
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
     onUpdateUser({
-      name,
-      about: description,
+      name: formValues.name.value,
+      about: formValues.about.value,
     });
   }
 
@@ -54,10 +65,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       isOpened={isOpen}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      isValid={isNameValid && isDescriptionValid}>
+      isValid={formValues.name.isValid && formValues.about.isValid}>
       <input
         className={`popup__input popup__input_type_name ${
-          !isNameValid && "popup__input_invalid"
+          !formValues.name.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="name"
@@ -66,18 +77,18 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         minLength="2"
         maxLength="40"
         required
-        onChange={handleNameChange}
-        value={name || ""}
+        onChange={handleChange}
+        value={formValues.name.value || ""}
       />
       <span
         className={`popup__input-error name-input-error ${
-          !isNameValid && "popup__input-error_visible"
+          !formValues.name.isValid && "popup__input-error_visible"
         }`}>
-        {nameErrorMessage}
+        {formValues.name.error}
       </span>
       <input
         className={`popup__input popup__input_type_about ${
-          !isDescriptionValid && "popup__input_invalid"
+          !formValues.about.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="about"
@@ -86,14 +97,14 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         minLength="2"
         maxLength="200"
         required
-        onChange={handleDescriptionChange}
-        value={description || ""}
+        onChange={handleChange}
+        value={formValues.about.value || ""}
       />
       <span
         className={`popup__input-error about-input-error ${
-          !isDescriptionValid && "popup__input-error_visible"
+          !formValues.about.isValid && "popup__input-error_visible"
         }`}>
-        {descriptionErrorMessage}
+        {formValues.about.error}
       </span>
     </PopupWithForm>
   );

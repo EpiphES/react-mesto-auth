@@ -1,37 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
-  const [title, setTitle] = useState("");
-  const [link, setLink] = useState("");
-  const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isLinkValid, setIsLinkValid] = useState(true);
-  const [titleErrorMessage, setTitleErrorMessage] = useState("");
-  const [linkErrorMessage, setLinkErrorMessage] = useState("");
+  const [formValues, setFormValues] = useState({
+    title: {
+      value: "",
+      error: "",
+      isValid: true,
+    },
+    link: {
+      value: "",
+      error: "",
+      isValid: true,
+    },
+  });
 
-  function handleTitleChange(evt) {
-    setTitle(evt.target.value);
-    if (evt.target.validity.valid) {
-      setIsTitleValid(true);
-    } else {
-      setIsTitleValid(false);
-      setTitleErrorMessage(evt.target.validationMessage);
-    }
-  }
+  useEffect(() => {
+    setFormValues({
+      title: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+      link: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+    });
+  }, [isOpen]);
 
-  function handleLinkChange(evt) {
-    setLink(evt.target.value);
-    if (evt.target.validity.valid) {
-      setIsLinkValid(true);
-    } else {
-      setIsLinkValid(false);
-      setLinkErrorMessage(evt.target.validationMessage);
-    }
+  function handleChange(evt) {
+    const {
+      name,
+      value,
+      validity: { valid },
+      validationMessage,
+    } = evt.target;
+
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: { value, isValid: valid, error: validationMessage },
+    }));
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddPlace({ title, link });
+    onAddPlace({ title: formValues.title.value, link: formValues.link.value });
   }
 
   return (
@@ -42,10 +57,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       onClose={onClose}
       isOpened={isOpen}
       onSubmit={handleSubmit}
-      isLoading={isLoading}>
+      isLoading={isLoading}
+      isValid={formValues.title.isValid && formValues.link.isValid}>
       <input
         className={`popup__input popup__input_type_card-title ${
-          !isTitleValid && "popup__input_invalid"
+          !formValues.title.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="title"
@@ -54,32 +70,32 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         minLength="2"
         maxLength="30"
         required
-        onChange={handleTitleChange}
-        value={title}
+        onChange={handleChange}
+        value={formValues.title.value}
       />
       <span
         className={`popup__input-error title-input-error ${
-          !isTitleValid && "popup__input-error_visible"
+          !formValues.title.isValid && "popup__input-error_visible"
         }`}>
-        {titleErrorMessage}
+        {formValues.title.error}
       </span>
       <input
         className={`popup__input popup__input_type_image-link ${
-          !isLinkValid && "popup__input_invalid"
+          !formValues.link.isValid && "popup__input_invalid"
         }`}
         type="url"
         name="link"
         placeholder="Ссылка на картинку"
         id="link-input"
         required
-        onChange={handleLinkChange}
-        value={link}
+        onChange={handleChange}
+        value={formValues.link.value}
       />
       <span
         className={`popup__input-error link-input-error ${
-          !isLinkValid && "popup__input-error_visible"
+          !formValues.link.isValid && "popup__input-error_visible"
         }`}>
-        {linkErrorMessage}
+        {formValues.link.error}
       </span>
     </PopupWithForm>
   );

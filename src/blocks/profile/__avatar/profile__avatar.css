@@ -2,11 +2,11 @@
   width: 120px;
   height: 120px;
 
-  display: block;
   flex-shrink: 0;
   position: relative;
 
   border-radius: 50%;
+  border: none;
 
   background-size: cover;
   background-position: center;
@@ -21,6 +21,8 @@
   content: '';
 
   position: absolute;
+  top: 0;
+  left: 0;
 
   background: rgba(0, 0, 0, 0.8) url(../../../images/pen.svg) no-repeat center;
 

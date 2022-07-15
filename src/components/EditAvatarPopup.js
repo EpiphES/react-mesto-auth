@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
@@ -20,6 +20,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     }
   }
 
+  useEffect(() => {
+    avatarInput.current.value = "";
+    setIsInputValid(true);
+    setErrorMessage("");
+  }, [isOpen]);
+
   return (
     <PopupWithForm
       name="avatar"
@@ -28,7 +34,8 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       onClose={onClose}
       isOpened={isOpen}
       onSubmit={handleSubmit}
-      isLoading={isLoading}>
+      isLoading={isLoading}
+      isValid={isInputValid}>
       <input
         className={`popup__input popup__input_type_avatar-link ${
           !isInputValid && "popup__input_invalid"
