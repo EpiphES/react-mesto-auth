@@ -17,11 +17,9 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   function handleClick() {
     onCardClick({ src: card.link, title: card.name });
   }
-
   function handleLikeClick() {
     onCardLike(card);
   }
-
   function handleDeleteClick() {
     onCardDelete(card._id);
   }

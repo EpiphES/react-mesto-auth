@@ -13,7 +13,8 @@ function ConfirmationPopup({ card, onClose, onConfirmDeletion, isLoading }) {
       onClose={onClose}
       isOpened={card}
       onSubmit={handleSubmit}
-      isLoading={isLoading}></PopupWithForm>
+      isLoading={isLoading}
+    />
   );
 }
 

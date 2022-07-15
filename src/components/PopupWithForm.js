@@ -7,10 +7,10 @@ function PopupWithForm({
   onClose,
   onSubmit,
   isLoading,
+  isValid,
 }) {
   return (
-    <div
-      className={`popup popup_type_${name}${isOpened ? " popup_opened" : ""}`}>
+    <div className={`popup popup_type_${name} ${isOpened && "popup_opened"}`}>
       <div className="popup__content">
         <button
           className="popup__close-button"
@@ -25,7 +25,9 @@ function PopupWithForm({
           onSubmit={onSubmit}>
           {children}
           <button
-            className="popup__submit-button"
+            className={`popup__submit-button ${
+              !isValid && "popup__submit-button_disabled"
+            }`}
             type="submit"
             aria-label={acceptMessage}>
             {isLoading ? "Сохранение.." : acceptMessage}

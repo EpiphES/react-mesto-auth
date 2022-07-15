@@ -28,6 +28,15 @@ function App() {
   const [isConfirmationFormLoading, setConfirmationFormLoading] =
     useState(false);
 
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cards]) => {
+        setCurrentUser(userData);
+        setCards(cards);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   function handleCardClick({ src, title }) {
     setSelectedCard({ src, title });
   }
@@ -41,15 +50,6 @@ function App() {
   function handleCardDelete(cardId) {
     setCardToDelete(cardId);
   }
-
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, cards]) => {
-        setCurrentUser(userData);
-        setCards(cards);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -79,7 +79,6 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsProfileLoading(false));
   }
-
   function handleUpdateAvatar({ avatar }) {
     setIsAvatarFormLoading(true);
     api
@@ -91,7 +90,6 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsAvatarFormLoading(false));
   }
-
   function handleAddPlaceSubmit({ title, link }) {
     setIsAddPlaceFormLoading(true);
     api
@@ -103,7 +101,6 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsAddPlaceFormLoading(false));
   }
-
   function handleConfirmDeletion(cardId) {
     setConfirmationFormLoading(true);
     api
