@@ -8,14 +8,8 @@ function ImagePopup({ card, onClose }) {
           aria-label="закрыть"
           onClick={onClose}></button>
         <figure className="popup__figure">
-          <img
-            src={card ? card.src : "/"}
-            alt={card ? card.title : ""}
-            className="popup__image"
-          />
-          <figcaption className="popup__caption">
-            {card ? card.title : ""}
-          </figcaption>
+          <img src={card?.src} alt={card?.title} className="popup__image" />
+          <figcaption className="popup__caption">{card?.title}</figcaption>
         </figure>
       </div>
     </div>

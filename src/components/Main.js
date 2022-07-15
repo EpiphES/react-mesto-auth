@@ -34,18 +34,18 @@ function Main({
           className="profile__avatar"
           onClick={onEditAvatar}
           style={{
-            backgroundImage: `url(${currentUser && currentUser.avatar})`,
+            backgroundImage: `url(${currentUser?.avatar})`,
           }}></a>
         <div className="profile__info">
           <div className="profile__title">
-            <h1 className="profile__name">{currentUser && currentUser.name}</h1>
+            <h1 className="profile__name">{currentUser?.name}</h1>
             <button
               className="profile__edit-button"
               type="button"
               aria-label="редактировать"
               onClick={onEditProfile}></button>
           </div>
-          <p className="profile__about">{currentUser && currentUser.about}</p>
+          <p className="profile__about">{currentUser?.about}</p>
         </div>
         <button
           className="profile__add-button"
