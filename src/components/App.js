@@ -18,11 +18,7 @@ function App() {
   const [cardToDelete, setCardToDelete] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState({
-    name: "",
-    about: "",
-    avatar: "/",
-  });
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [cards, setCards] = useState([]);
 
@@ -78,12 +74,10 @@ function App() {
       .submitProfileInfo({ name, about })
       .then((userData) => {
         setCurrentUser(userData);
+        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {
-        setIsProfileLoading(false);
-        closeAllPopups();
-      });
+      .finally(() => setIsProfileLoading(false));
   }
 
   function handleUpdateAvatar({ avatar }) {
@@ -92,12 +86,10 @@ function App() {
       .submitAvatar({ avatar })
       .then((userData) => {
         setCurrentUser(userData);
+        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {
-        setIsAvatarFormLoading(false);
-        closeAllPopups();
-      });
+      .finally(() => setIsAvatarFormLoading(false));
   }
 
   function handleAddPlaceSubmit({ title, link }) {
@@ -106,23 +98,21 @@ function App() {
       .submitCard({ title, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
+        closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {
-        setIsAddPlaceFormLoading(false);
-        closeAllPopups();
-      });
+      .finally(() => setIsAddPlaceFormLoading(false));
   }
 
   function handleConfirmDeletion(cardId) {
     setConfirmationFormLoading(true);
     api
       .deleteCard(cardId)
-      .then(() => setCards((state) => state.filter((c) => c._id !== cardId)))
-      .finally(() => {
-        setConfirmationFormLoading(false);
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== cardId));
         closeAllPopups();
-      });
+      })
+      .finally(() => setConfirmationFormLoading(false));
   }
 
   return (

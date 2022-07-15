@@ -8,8 +8,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setName(currentUser && currentUser.name);
+    setDescription(currentUser && currentUser.about);
   }, [currentUser]);
 
   function handleNameChange(evt) {
@@ -48,7 +48,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         maxLength="40"
         required
         onChange={handleNameChange}
-        value={name}
+        value={name || ""}
       />
       <span className="popup__input-error name-input-error"></span>
       <input
@@ -61,7 +61,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         maxLength="200"
         required
         onChange={handleDescriptionChange}
-        value={description}
+        value={description || ""}
       />
       <span className="popup__input-error about-input-error"></span>
     </PopupWithForm>
