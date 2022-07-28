@@ -34,7 +34,8 @@ function Main({
           onClick={onEditAvatar}
           style={{
             backgroundImage: `url(${currentUser?.avatar})`,
-          }}></button>
+          }} 
+        />
         <div className="profile__info">
           <div className="profile__title">
             <h1 className="profile__name">{currentUser?.name}</h1>
@@ -42,7 +43,8 @@ function Main({
               className="profile__edit-button"
               type="button"
               aria-label="редактировать"
-              onClick={onEditProfile}></button>
+              onClick={onEditProfile} 
+            />
           </div>
           <p className="profile__about">{currentUser?.about}</p>
         </div>
@@ -50,7 +52,8 @@ function Main({
           className="profile__add-button"
           type="button"
           aria-label="добавить"
-          onClick={onAddPlace}></button>
+          onClick={onAddPlace} 
+        />
       </section>
 
       <ul className="elements">{cardsElements}</ul>

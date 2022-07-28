@@ -36,7 +36,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         className={cardDeleteButtonClassName}
         type="button"
         aria-label="удалить"
-        onClick={handleDeleteClick}></button>
+        onClick={handleDeleteClick} />
       <div className="elements__caption">
         <h2 className="elements__title">{card.name}</h2>
         <div className="elements__like-group">
@@ -44,7 +44,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
             className={cardLikeButtonClassName}
             type="button"
             aria-label="нравится"
-            onClick={handleLikeClick}></button>
+            onClick={handleLikeClick} />
           <span className="elements__like-count">{card.likes.length}</span>
         </div>
       </div>
