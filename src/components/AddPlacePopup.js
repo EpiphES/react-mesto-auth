@@ -16,7 +16,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     },
   }),[]);
     
-  const [values, setValues, handleChange] = useForm(initialFormValues);
+  const {values, setValues, handleChange} = useForm(initialFormValues);
   
   useEffect(() => {
     setValues(initialFormValues);

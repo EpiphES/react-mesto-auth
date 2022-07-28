@@ -11,6 +11,7 @@ import ImagePopup from "./ImagePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 import { Switch, Route, Redirect} from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import Login from "./Login";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -140,14 +141,12 @@ function App() {
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
             />
-            <Route path="/sign-up">sign-up</Route>
-            <Route path="/sign-in">sign-in</Route>
+            <Route path="/sign-up"></Route>
+            <Route path="/sign-in">
+              <Login />
+            </Route>
             <Route>
-              {loggedIn ? (
-                <Redirect to="/" />
-              ) : (
-                <Redirect to="/sign-in" />
-              )}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />
