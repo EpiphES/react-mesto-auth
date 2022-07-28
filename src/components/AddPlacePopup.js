@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../hooks/useForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
-  const [formValues, setFormValues] = useState({
+  const initialFormValues = useMemo (() => ({
     title: {
       value: "",
       error: "",
@@ -13,40 +14,17 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       error: "",
       isValid: true,
     },
-  });
-
+  }),[]);
+    
+  const [values, setValues, handleChange] = useForm(initialFormValues);
+  
   useEffect(() => {
-    setFormValues({
-      title: {
-        value: "",
-        error: "",
-        isValid: true,
-      },
-      link: {
-        value: "",
-        error: "",
-        isValid: true,
-      },
-    });
-  }, [isOpen]);
-
-  function handleChange(evt) {
-    const {
-      name,
-      value,
-      validity: { valid },
-      validationMessage,
-    } = evt.target;
-
-    setFormValues((prevState) => ({
-      ...prevState,
-      [name]: { value, isValid: valid, error: validationMessage },
-    }));
-  }
+    setValues(initialFormValues);
+  }, [isOpen, setValues, initialFormValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddPlace({ title: formValues.title.value, link: formValues.link.value });
+    onAddPlace({ title: values.title.value, link: values.link.value });
   }
 
   return (
@@ -58,10 +36,15 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       isOpened={isOpen}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      isValid={formValues.title.isValid && formValues.link.isValid}>
+      isValid={
+        values.title.isValid &&
+        values.link.isValid &&
+        values.title.value &&
+        values.link.value
+      }>
       <input
         className={`popup__input popup__input_type_card-title ${
-          !formValues.title.isValid && "popup__input_invalid"
+          !values.title.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="title"
@@ -71,17 +54,17 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         maxLength="30"
         required
         onChange={handleChange}
-        value={formValues.title.value}
+        value={values.title.value}
       />
       <span
         className={`popup__input-error title-input-error ${
-          !formValues.title.isValid && "popup__input-error_visible"
+          !values.title.isValid && "popup__input-error_visible"
         }`}>
-        {formValues.title.error}
+        {values.title.error}
       </span>
       <input
         className={`popup__input popup__input_type_image-link ${
-          !formValues.link.isValid && "popup__input_invalid"
+          !values.link.isValid && "popup__input_invalid"
         }`}
         type="url"
         name="link"
@@ -89,13 +72,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         id="link-input"
         required
         onChange={handleChange}
-        value={formValues.link.value}
+        value={values.link.value}
       />
       <span
         className={`popup__input-error link-input-error ${
-          !formValues.link.isValid && "popup__input-error_visible"
+          !values.link.isValid && "popup__input-error_visible"
         }`}>
-        {formValues.link.error}
+        {values.link.error}
       </span>
     </PopupWithForm>
   );

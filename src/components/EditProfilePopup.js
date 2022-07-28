@@ -1,25 +1,13 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../hooks/useForm";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const [formValues, setFormValues] = useState({
-    name: {
-      value: "",
-      error: "",
-      isValid: true,
-    },
-    about: {
-      value: "",
-      error: "",
-      isValid: true,
-    },
-  });
-
-  useEffect(() => {
-    setFormValues({
+  const initialFormValues = useMemo(
+    () => ({
       name: {
         value: currentUser?.name,
         error: "",
@@ -30,29 +18,20 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         error: "",
         isValid: true,
       },
-    });
-  }, [currentUser, isOpen]);
+    }),[currentUser]);
 
-  function handleChange(evt) {
-    const {
-      name,
-      value,
-      validity: { valid },
-      validationMessage,
-    } = evt.target;
+  const [values, setValues, handleChange] = useForm(initialFormValues);
 
-    setFormValues((prevState) => ({
-      ...prevState,
-      [name]: { value, isValid: valid, error: validationMessage },
-    }));
-  }
+  useEffect(() => {
+    setValues(initialFormValues)
+  }, [isOpen, setValues, initialFormValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
     onUpdateUser({
-      name: formValues.name.value,
-      about: formValues.about.value,
+      name: values.name.value,
+      about: values.about.value,
     });
   }
 
@@ -65,10 +44,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       isOpened={isOpen}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      isValid={formValues.name.isValid && formValues.about.isValid}>
+      isValid={values.name.isValid && values.about.isValid}>
       <input
         className={`popup__input popup__input_type_name ${
-          !formValues.name.isValid && "popup__input_invalid"
+          !values.name.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="name"
@@ -78,17 +57,17 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         maxLength="40"
         required
         onChange={handleChange}
-        value={formValues.name.value || ""}
+        value={values.name.value || ""}
       />
       <span
         className={`popup__input-error name-input-error ${
-          !formValues.name.isValid && "popup__input-error_visible"
+          !values.name.isValid && "popup__input-error_visible"
         }`}>
-        {formValues.name.error}
+        {values.name.error}
       </span>
       <input
         className={`popup__input popup__input_type_about ${
-          !formValues.about.isValid && "popup__input_invalid"
+          !values.about.isValid && "popup__input_invalid"
         }`}
         type="text"
         name="about"
@@ -98,13 +77,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         maxLength="200"
         required
         onChange={handleChange}
-        value={formValues.about.value || ""}
+        value={values.about.value || ""}
       />
       <span
         className={`popup__input-error about-input-error ${
-          !formValues.about.isValid && "popup__input-error_visible"
+          !values.about.isValid && "popup__input-error_visible"
         }`}>
-        {formValues.about.error}
+        {values.about.error}
       </span>
     </PopupWithForm>
   );
