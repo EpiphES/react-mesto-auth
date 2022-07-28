@@ -35,7 +35,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       isOpened={isOpen}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      isValid={isInputValid}>
+      isValid={isInputValid && avatarInput.current?.value}>
       <input
         className={`popup__input popup__input_type_avatar-link ${
           !isInputValid && "popup__input_invalid"
