@@ -41,6 +41,8 @@ function App() {
 
   const history = useHistory();
 
+  const [userEmail, setUserEmail] = useState("");
+
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
@@ -130,24 +132,7 @@ function App() {
       })
       .catch((err) => console.log(err))
       .finally(() => setConfirmationFormLoading(false));
-  }
-
-  function handleLogin({email, password}) {
-    auth
-      .authorize({ email, password })
-      .then((data) => {
-        localStorage.setItem("token", data.token);
-        setLoggedIn(true);
-        history.push("/");
-      })
-      .catch((err) => {
-        setRegMessage({
-          icon: failIcon,
-          text: "Что-то пошло не так! Попробуйте ещё раз.",
-        });
-        console.log(err);
-      });
-  }
+  }  
 
   function handleRegister({email, password}) {
     auth.register({email, password})
@@ -167,13 +152,34 @@ function App() {
     })
   }
 
+  function handleLogin({ email, password }) {
+    auth
+      .authorize({ email, password })
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        setLoggedIn(true);
+        history.push("/");
+      })
+      .catch((err) => {
+        setRegMessage({
+          icon: failIcon,
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+        console.log(err);
+      });
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    history.push("/sign-in");
+  }
 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header />
+          <Header email={userEmail} onLogout={handleLogout}/>
           <Switch>
             <ProtectedRoute
               exact

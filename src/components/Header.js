@@ -18,8 +18,8 @@ function Header({email, onLogout}) {
 
       {location.pathname === "/" && (
         <div className="header__menu">
-          <p className="header__email">{"email@mail.com"}</p>
-          <button className="header__logout-button">Выйти</button>
+          <p className="header__email">{email}</p>
+          <button className="header__logout-button" type="button" aria-label="Выйти" onClick={()=> onLogout()}>Выйти</button>
         </div>
       )}
     </header>

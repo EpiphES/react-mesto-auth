@@ -1,6 +1,5 @@
 import AuthForm from "./AuthForm";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
 import useForm from "../hooks/useForm";
 
 function Login({onLogin}) {
