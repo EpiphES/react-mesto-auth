@@ -1,6 +1,6 @@
 import {Link, useLocation} from "react-router-dom";
 
-function Header() {
+function Header({email, onLogout}) {
   const location = useLocation()
   return (
     <header className="header">
@@ -14,6 +14,13 @@ function Header() {
         <Link to="/sign-in" className="header__link">
           Войти
         </Link>
+      )}
+
+      {location.pathname === "/" && (
+        <div className="header__menu">
+          <p className="header__email">{"email@mail.com"}</p>
+          <button className="header__logout-button">Выйти</button>
+        </div>
       )}
     </header>
   );
