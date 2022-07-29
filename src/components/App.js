@@ -159,6 +159,7 @@ function App() {
         localStorage.setItem("token", data.token);
         setLoggedIn(true);
         history.push("/");
+        setUserEmail(email);
       })
       .catch((err) => {
         setRegMessage({
@@ -173,6 +174,25 @@ function App() {
     localStorage.removeItem("token");
     history.push("/sign-in");
   }
+
+  function checkToken() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          console.log(res.data);
+          setLoggedIn(true);
+          history.push("/");
+          setUserEmail(res.data.email);
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
+  useEffect(() => {
+    checkToken()
+  }, [checkToken]);
 
 
   return (

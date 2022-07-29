@@ -19,7 +19,19 @@ export function authorize({email, password}) {
     method: "POST",
     headers,
     body: JSON.stringify({ email, password }),
-  }).then((res) => checkResponse(res));
+  })
+  .then((res) => checkResponse(res));
 }
+
+export function getContent(token) {
+  return fetch(`${baseUrl}/users/me`, {
+    method: "GET",
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then((res) => checkResponse(res));
+}; 
 
   
