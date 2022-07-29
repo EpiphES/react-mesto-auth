@@ -100,6 +100,14 @@
 
 @import url(./blocks/auth-form/__input/auth-form__input.css);
 
+@import url(./blocks/auth-form/__input/_invalid/auth-form__input_invalid.css);
+
+@import url(./blocks/auth-form/__input-error/auth-form__input-error.css);
+
+@import url(./blocks/auth-form/__input-error/_visible/auth-form__input-error_visible.css);
+
 @import url(./blocks/auth-form/__submit-button/auth-form__submit-button.css);
+
+@import url(./blocks/auth-form/__submit-button/_disabled/auth-form__submit-button_disabled.css);
 
 @import url(./blocks/register/__login-link/register__login-link.css);

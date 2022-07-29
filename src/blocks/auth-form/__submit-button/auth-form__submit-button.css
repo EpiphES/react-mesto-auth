@@ -22,7 +22,7 @@
 }
 
 .auth-form__submit-button:hover {
-  opacity: .8;
+  opacity: .6;
 }
 
 @media screen and (max-width: 767px) {

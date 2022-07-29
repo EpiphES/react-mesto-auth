@@ -1,0 +1,8 @@
+.auth-form__submit-button_disabled {
+  opacity: .4;
+  cursor: wait;
+}
+
+.auth-form__submit-button_disabled:hover {
+  opacity: .4;
+}
