@@ -1,8 +1,7 @@
 import { useState } from "react";
-import {Link, useLocation} from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 
 function Header({email, onLogout}) {
-  const location = useLocation()
   const [burgerIsOpened, setBurgerIsOpened] = useState(false)
 
   function handleBurgerClick() {
@@ -12,18 +11,17 @@ function Header({email, onLogout}) {
   return (
     <header className="header">
       <Link to="/" className="header__logo"></Link>
-      {location.pathname === "/sign-in" && (
+      <Route path="/sign-in">
         <Link to="/sign-up" className="header__link">
           Регистрация
         </Link>
-      )}
-      {location.pathname === "/sign-up" && (
+      </Route>
+      <Route path="/sign-up">
         <Link to="/sign-in" className="header__link">
           Войти
         </Link>
-      )}
-
-      {location.pathname === "/" && (
+      </Route>
+      <Route exact path="/">
         <>
           <button
             className={`header__burger-button ${
@@ -47,7 +45,7 @@ function Header({email, onLogout}) {
             </button>
           </div>
         </>
-      )}
+      </Route>
     </header>
   );
 }
