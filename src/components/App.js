@@ -13,6 +13,10 @@ import { Switch, Route, Redirect} from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import Register from "./Register";
+import * as auth from "../utils/auth.js";
+import InfoTooltip from "./InfoTooltip";
+import successIcon from "../images/success.svg";
+import failIcon from "../images/fail.svg";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,6 +36,8 @@ function App() {
   const [isAddPlaceFormLoading, setIsAddPlaceFormLoading] = useState(false);
   const [isConfirmationFormLoading, setConfirmationFormLoading] =
     useState(false);
+
+  const [regMessage, setRegMessage] = useState(null);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -76,6 +82,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
     setCardToDelete(null);
+    setRegMessage(null);
   }
 
   function handleUpdateUser({ name, about }) {
@@ -127,8 +134,21 @@ function App() {
     console.log("login");
   }
 
-  function handleRegister() {
-    console.log("register");
+  function handleRegister({email, password}) {
+    auth.register({email, password})
+    .then((res) => {
+      setRegMessage({
+        icon: successIcon,
+        text: "Вы успешно зарегистрировались!",
+      });
+    })
+    .catch((err) => {
+      setRegMessage({
+        icon: failIcon,
+        text: "Что-то пошло не так! Попробуйте ещё раз."
+      })
+      console.log(err);
+    })
   }
 
   return (
@@ -187,6 +207,7 @@ function App() {
           isLoading={isConfirmationFormLoading}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <InfoTooltip message={regMessage} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   );

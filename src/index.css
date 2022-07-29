@@ -62,13 +62,17 @@
 
 @import url(./blocks/popup/__content/popup__content.css);
 
-@import url(./blocks/popup/__content/_image/popup__content_image.css);
+@import url(./blocks/popup/__content/_place/popup__content_place_image.css);
+
+@import url(./blocks/popup/__content/_place/popup__content_place_infotool.css);
 
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 
 @import url(./blocks/popup/__title/popup__title.css);
 
 @import url(./blocks/popup/__title/_place/popup__title_place_confirm.css);
+
+@import url(./blocks/popup/__title/_place/popup__title_place_tooltip.css);
 
 @import url(./blocks/popup/__form/popup__form.css);
 
@@ -98,3 +102,4 @@
 
 @import url(./blocks/auth-form/__submit-button/auth-form__submit-button.css);
 
+@import url(./blocks/register/__login-link/register__login-link.css);
