@@ -12,6 +12,7 @@ import ConfirmationPopup from "./ConfirmationPopup";
 import { Switch, Route, Redirect} from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
+import Register from "./Register";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -122,6 +123,14 @@ function App() {
       .finally(() => setConfirmationFormLoading(false));
   }
 
+  function handleLogin() {
+    console.log("login");
+  }
+
+  function handleRegister() {
+    console.log("register");
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -141,12 +150,14 @@ function App() {
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
             />
-            <Route path="/sign-up"></Route>
+            <Route path="/sign-up">
+              <Register onRegister={handleRegister} />
+            </Route>
             <Route path="/sign-in">
-              <Login />
+              <Login onLogin={handleLogin}/>
             </Route>
             <Route>
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-up" />}
             </Route>
           </Switch>
           <Footer />
