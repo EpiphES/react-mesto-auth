@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
@@ -174,7 +174,7 @@ function App() {
     history.push("/sign-in");
   }
 
-  function checkToken() {
+  const checkToken = useCallback(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       return;
@@ -187,11 +187,11 @@ function App() {
         history.push("/");
       })
       .catch((err) => console.log(err));
-  }
+  }, [history]);
 
   useEffect(() => {
     checkToken()
-  }, []);
+  }, [checkToken]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
