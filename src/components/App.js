@@ -43,13 +43,16 @@ function App() {
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
+    if(!loggedIn) {
+      return
+    }
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
         setCards(cards);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [loggedIn]);
 
   function handleCardClick({ src, title }) {
     setSelectedCard({ src, title });
@@ -158,6 +161,7 @@ function App() {
         localStorage.setItem("token", data.token);
         setLoggedIn(true);
         setUserEmail(email);
+        console.log(loggedIn);
         history.push("/");
       })
       .catch((err) => {
