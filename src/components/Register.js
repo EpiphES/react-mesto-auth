@@ -1,22 +1,30 @@
 import AuthForm from "./AuthForm";
-import { useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import useForm from "../hooks/useForm";
 
 function Register({onRegister}) {
-  const [registerValues, setRegisterValues] = useState({
-    email: "",
-    password: ""
-  });
-
-  function handleChange(evt) {
-    const {name, value} = evt.target;
-    setRegisterValues((prevState) => ({ ...prevState, [name]: value
-    }));
-  }
+  const initialFormValues = useMemo(
+    () => ({
+      email: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+      password: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+    }),
+    []
+  );
+  
+  const { values, handleChange } = useForm(initialFormValues);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onRegister(registerValues);
+    onRegister({email: values.email.value, password: values.password.value});
   }
   return (
     <>
@@ -24,17 +32,31 @@ function Register({onRegister}) {
         name="register"
         title="Регистрация"
         submitText="Зарегистрироваться"
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+        isValid={
+          values.email.isValid &&
+          values.password.isValid &&
+          values.email.value &&
+          values.password.value
+        }>
         <input
-          className="auth-form__input"
+          className={`auth-form__input ${
+            !values.email.isValid && "auth-form__input_invalid"
+          }`}
           type="email"
           name="email"
           placeholder="Email"
           id="register-email"
           required
           onChange={handleChange}
-          value={registerValues.email}
+          value={values.email.value}
         />
+        <span
+          className={`auth-form__input-error ${
+            !values.email.isValid && "auth-form__input-error_visible"
+          }`}>
+          {values.email.error}
+        </span>
         <input
           className="auth-form__input"
           type="password"
@@ -45,10 +67,18 @@ function Register({onRegister}) {
           maxLength="20"
           required
           onChange={handleChange}
-          value={registerValues.password}
+          value={values.password.value}
         />
-      </AuthForm>      
-        <Link to="/sign-in" className="register__login-link">Уже зарегистрированы? Войти</Link>
+        <span
+          className={`auth-form__input-error ${
+            !values.password.isValid && "auth-form__input-error_visible"
+          }`}>
+          {values.password.error}
+        </span>
+      </AuthForm>
+      <Link to="/sign-in" className="register__login-link">
+        Уже зарегистрированы? Войти
+      </Link>
     </>
   );
 }

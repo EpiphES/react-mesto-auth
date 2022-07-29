@@ -1,21 +1,30 @@
 import AuthForm from "./AuthForm";
-import { useState } from "react";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import useForm from "../hooks/useForm";
 
 function Login({onLogin}) {
-  const [loginValues, setLoginValues] = useState({
-    email: "",
-    password: ""
-  });
+  const initialFormValues = useMemo(
+    () => ({
+      email: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+      password: {
+        value: "",
+        error: "",
+        isValid: true,
+      },
+    }),
+    []
+  );
 
-  function handleChange(evt) {
-    const {name, value} = evt.target;
-    setLoginValues((prevState) => ({ ...prevState, [name]: value
-    }));
-  }
+  const { values, handleChange } = useForm(initialFormValues);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onLogin(loginValues);
+    onLogin({ email: values.email.value, password: values.password.value });
   }
   return (
     <AuthForm
@@ -23,17 +32,30 @@ function Login({onLogin}) {
       title="Вход"
       submitText="Войти"
       onSubmit={handleSubmit}
-    >
+      isValid={
+        values.email.isValid &&
+        values.password.isValid &&
+        values.email.value &&
+        values.password.value
+      }>
       <input
-        className="auth-form__input"
+        className={`auth-form__input ${
+          !values.email.isValid && "auth-form__input_invalid"
+        }`}
         type="email"
         name="email"
         placeholder="Email"
         id="login-email"
         required
         onChange={handleChange}
-        value={loginValues.email}
-      />      
+        value={values.email.value}
+      />
+      <span
+        className={`auth-form__input-error ${
+          !values.email.isValid && "auth-form__input-error_visible"
+        }`}>
+        {values.email.error}
+      </span>
       <input
         className="auth-form__input"
         type="password"
@@ -44,8 +66,14 @@ function Login({onLogin}) {
         maxLength="20"
         required
         onChange={handleChange}
-        value={loginValues.password}
-      />      
+        value={values.password.value}
+      />
+      <span
+        className={`auth-form__input-error ${
+          !values.password.isValid && "auth-form__input-error_visible"
+        }`}>
+        {values.password.error}
+      </span>
     </AuthForm>
   );
 }
