@@ -197,7 +197,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header email={userEmail} onLogout={handleLogout}/>
+          <Header email={userEmail} onLogout={handleLogout} />
           <Switch>
             <ProtectedRoute
               exact
@@ -216,9 +216,9 @@ function App() {
               <Register onRegister={handleRegister} />
             </Route>
             <Route path="/sign-in">
-              <Login onLogin={handleLogin}/>
+              <Login onLogin={handleLogin} />
             </Route>
-            <Route>
+            <Route path="*">
               {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
