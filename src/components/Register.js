@@ -76,9 +76,8 @@ function Register({onRegister}) {
           {values.password.error}
         </span>
       </AuthForm>
-      <Link to="/sign-in" className="register__login-link">
-        Уже зарегистрированы? Войти
-      </Link>
+      <p className="register__signin">
+        Уже зарегистрированы? <Link to="/sign-in" className="register__login-link">Войти</Link></p>
     </>
   );
 }

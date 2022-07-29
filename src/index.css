@@ -119,3 +119,5 @@
 @import url(./blocks/auth-form/__submit-button/_disabled/auth-form__submit-button_disabled.css);
 
 @import url(./blocks/register/__login-link/register__login-link.css);
+
+@import url(./blocks/register/__signin/register__signin.css);
