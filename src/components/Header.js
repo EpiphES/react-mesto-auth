@@ -1,7 +1,14 @@
+import { useState } from "react";
 import {Link, useLocation} from "react-router-dom";
 
 function Header({email, onLogout}) {
   const location = useLocation()
+  const [burgerIsOpened, setBurgerIsOpened] = useState(false)
+
+  function handleBurgerClick() {
+    setBurgerIsOpened(!burgerIsOpened);
+  }
+
   return (
     <header className="header">
       <Link to="/" className="header__logo"></Link>
@@ -17,10 +24,29 @@ function Header({email, onLogout}) {
       )}
 
       {location.pathname === "/" && (
-        <div className="header__menu">
-          <p className="header__email">{email}</p>
-          <button className="header__logout-button" type="button" aria-label="Выйти" onClick={()=> onLogout()}>Выйти</button>
-        </div>
+        <>
+          <button
+            className={`header__burger-button ${
+              burgerIsOpened && "header__burger-button_opened"
+            }`}
+            type="button"
+            aria-label="показать/скрыть меню"
+            onClick={handleBurgerClick}
+          />
+          <div
+            className={`header__menu ${
+              burgerIsOpened && "header__menu_opened"
+            }`}>
+            <p className="header__email">{email}</p>
+            <button
+              className="header__logout-button"
+              type="button"
+              aria-label="Выйти"
+              onClick={() => onLogout()}>
+              Выйти
+            </button>
+          </div>
+        </>
       )}
     </header>
   );

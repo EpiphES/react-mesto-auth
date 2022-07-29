@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
+import * as auth from "../utils/auth.js";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,16 +11,16 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
-import { Switch, Route, Redirect, useHistory} from "react-router-dom";
+import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import Register from "./Register";
-import * as auth from "../utils/auth.js";
-import InfoTooltip from "./InfoTooltip";
+
 import successIcon from "../images/success.svg";
 import failIcon from "../images/fail.svg";
 
 function App() {
+  const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -28,7 +30,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [currentUser, setCurrentUser] = useState(null);
-
   const [cards, setCards] = useState([]);
 
   const [isProfileFormLoading, setIsProfileLoading] = useState(false);
@@ -37,9 +38,7 @@ function App() {
   const [isConfirmationFormLoading, setConfirmationFormLoading] =
     useState(false);
 
-  const [regMessage, setRegMessage] = useState(null);
-
-  const history = useHistory();
+  const [registerMessage, setRegisterMessage] = useState(null);
 
   const [userEmail, setUserEmail] = useState("");
 
@@ -86,7 +85,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
     setCardToDelete(null);
-    setRegMessage(null);
+    setRegisterMessage(null);
   }
 
   function handleUpdateUser({ name, about }) {
@@ -137,14 +136,14 @@ function App() {
   function handleRegister({email, password}) {
     auth.register({email, password})
     .then((res) => {
-      setRegMessage({
+      setRegisterMessage({
         icon: successIcon,
         text: "Вы успешно зарегистрировались!",
       });
       history.push("/sign-in");
     })
     .catch((err) => {
-      setRegMessage({
+      setRegisterMessage({
         icon: failIcon,
         text: "Что-то пошло не так! Попробуйте ещё раз."
       })
@@ -158,11 +157,11 @@ function App() {
       .then((data) => {
         localStorage.setItem("token", data.token);
         setLoggedIn(true);
-        history.push("/");
         setUserEmail(email);
+        history.push("/");
       })
       .catch((err) => {
-        setRegMessage({
+        setRegisterMessage({
           icon: failIcon,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
         });
@@ -177,23 +176,22 @@ function App() {
 
   function checkToken() {
     const token = localStorage.getItem("token");
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          console.log(res.data);
-          setLoggedIn(true);
-          history.push("/");
-          setUserEmail(res.data.email);
-        })
-        .catch(err => console.log(err));
+    if (!token) {
+      return;
     }
+    auth
+      .getContent(token)
+      .then((res) => {
+        setLoggedIn(true);
+        setUserEmail(res.data.email);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {
     checkToken()
-  }, [checkToken]);
-
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -251,7 +249,7 @@ function App() {
           isLoading={isConfirmationFormLoading}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip message={regMessage} onClose={closeAllPopups} />
+        <InfoTooltip message={registerMessage} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   );
