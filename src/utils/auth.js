@@ -14,4 +14,12 @@ export function register({email, password}) {
   .then((res) => checkResponse(res));
 }
 
+export function authorize({email, password}) {
+  return fetch(`${baseUrl}/signin`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ email, password }),
+  }).then((res) => checkResponse(res));
+}
+
   

@@ -9,7 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
-import { Switch, Route, Redirect} from "react-router-dom";
+import { Switch, Route, Redirect, useHistory} from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import Register from "./Register";
@@ -38,6 +38,8 @@ function App() {
     useState(false);
 
   const [regMessage, setRegMessage] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -130,8 +132,21 @@ function App() {
       .finally(() => setConfirmationFormLoading(false));
   }
 
-  function handleLogin() {
-    console.log("login");
+  function handleLogin({email, password}) {
+    auth
+      .authorize({ email, password })
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        setLoggedIn(true);
+        history.push("/");
+      })
+      .catch((err) => {
+        setRegMessage({
+          icon: failIcon,
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+        console.log(err);
+      });
   }
 
   function handleRegister({email, password}) {
@@ -141,6 +156,7 @@ function App() {
         icon: successIcon,
         text: "Вы успешно зарегистрировались!",
       });
+      history.push("/sign-in");
     })
     .catch((err) => {
       setRegMessage({
@@ -150,6 +166,8 @@ function App() {
       console.log(err);
     })
   }
+
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

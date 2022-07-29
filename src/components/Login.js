@@ -1,7 +1,7 @@
 import AuthForm from "./AuthForm";
 import { useState } from "react";
 
-function Login(onLogin) {
+function Login({onLogin}) {
   const [loginValues, setLoginValues] = useState({
     email: "",
     password: ""
@@ -15,7 +15,7 @@ function Login(onLogin) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    console.log(loginValues);
+    onLogin(loginValues);
   }
   return (
     <AuthForm
