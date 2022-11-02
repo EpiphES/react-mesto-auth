@@ -161,7 +161,6 @@ function App() {
         localStorage.setItem("token", data.token);
         setLoggedIn(true);
         setUserEmail(email);
-        console.log(loggedIn);
         history.push("/");
       })
       .catch((err) => {
